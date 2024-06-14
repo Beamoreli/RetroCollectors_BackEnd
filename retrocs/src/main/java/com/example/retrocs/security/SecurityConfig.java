@@ -1,53 +1,56 @@
 package com.example.retrocs.security;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-
-
-
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests(requests -> requests
-                .requestMatchers("/games/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/games/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .permitAll());
+                        .permitAll()
+                );
         return http.build();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
-        var admin = User.withDefaultPasswordEncoder()
+        var admin = User.builder()
                 .username("admin")
-                .password("admin")
+                .password(passwordEncoder().encode("admin"))
                 .roles("ADMIN")
                 .build();
 
-        var user = User.withDefaultPasswordEncoder()
+        var user = User.builder()
                 .username("user")
-                .password("user")
+                .password(passwordEncoder().encode("user"))
                 .roles("USER")
                 .build();
 
         return new InMemoryUserDetailsManager(admin, user);
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

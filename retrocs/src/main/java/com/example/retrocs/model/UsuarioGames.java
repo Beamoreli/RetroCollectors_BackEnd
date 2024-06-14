@@ -16,7 +16,7 @@ public class UsuarioGames {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne // (mappedBy = "usuario", cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_usuario")
     private Usuario user;
 

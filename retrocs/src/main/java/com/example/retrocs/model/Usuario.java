@@ -4,13 +4,11 @@ package com.example.retrocs.model;
 import jakarta.persistence.*;
 
 
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
-
-
-
 
 @Entity
 @Data
@@ -28,6 +26,7 @@ public class Usuario {
     @NotNull
 
     @Column(unique = true)
+    @Email
     private String email;
 
     @NotNull

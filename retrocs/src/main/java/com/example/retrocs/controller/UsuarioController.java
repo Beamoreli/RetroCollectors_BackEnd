@@ -26,6 +26,7 @@ public class UsuarioController {
         return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
     }
 
+
     @PostMapping
     public Usuario createUsuario(@RequestBody Usuario usuario) {
         return usuarioService.save(usuario);

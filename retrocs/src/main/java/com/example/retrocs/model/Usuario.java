@@ -1,6 +1,7 @@
 package com.example.retrocs.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 
@@ -9,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,7 +28,6 @@ public class Usuario {
     private String nome;
 
     @NotNull
-
     @Column(unique = true)
     @Email
     private String email;
@@ -32,8 +35,15 @@ public class Usuario {
     @NotNull
     private String senha;
 
-    @NotNull
-    private String papel;
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "Usuario_Role",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
 
     public Integer getId() {
         return id;
@@ -67,11 +77,11 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public String getPapel() {
-        return papel;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setPapel(String papel) {
-        this.papel = papel;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

@@ -51,7 +51,7 @@ public class GameController {
     }
 
     @DeleteMapping("/{id}")
-  @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteGame(@PathVariable Integer id) {
         gameService.deleteById(id);
         return ResponseEntity.noContent().build();

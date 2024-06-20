@@ -1,9 +1,11 @@
 package com.example.retrocs.controller;
 
+import com.example.retrocs.dto.GameDTO;
 import com.example.retrocs.model.Usuario;
 import com.example.retrocs.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,9 +23,9 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Integer id) {
-        Usuario usuario = usuarioService.findById(id);
-        return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
+    public ResponseEntity<Usuario> getUsuarioComJogos(@PathVariable("id") Long userId) {
+        Usuario usuario = usuarioService.buscarUsuarioComJogos(userId);
+        return ResponseEntity.ok(usuario);
     }
 
 
@@ -50,4 +52,13 @@ public class UsuarioController {
         usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{idUsuario}/adicionar-jogo")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> adicionarJogoParaUsuario(@PathVariable Integer idUsuario, @RequestBody GameDTO gameDTO) {
+
+        return ResponseEntity.ok().build();
+    }
+
+
 }

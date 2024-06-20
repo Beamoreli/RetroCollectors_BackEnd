@@ -2,6 +2,7 @@ package com.example.retrocs.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 
@@ -44,6 +45,14 @@ public class Usuario {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "UsuarioGames",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_id")
+    )
+  @JsonIgnoreProperties("usuarios")
+    private Set<Game> jogos = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -84,4 +93,5 @@ public class Usuario {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
 }

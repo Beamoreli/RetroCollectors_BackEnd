@@ -1,14 +1,14 @@
 package com.example.retrocs.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,6 +22,10 @@ public class Genero {
 
     @NotNull
     private String nome;
+
+
+    @ManyToMany(mappedBy = "generos")
+    private Set<Game> games = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -39,5 +43,11 @@ public class Genero {
         this.nome = nome;
     }
 
-    // getters e setters
+    public Set<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(Set<Game> games) {
+        this.games = games;
+    }
 }

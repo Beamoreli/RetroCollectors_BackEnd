@@ -19,4 +19,8 @@ public class GeneroService {
                 .map(Genero::getNome)
                 .collect(Collectors.toList());
     }
+
+    public Genero saveGenero(Genero genero) {
+        return generoRepository.save(genero);
+    }
 }

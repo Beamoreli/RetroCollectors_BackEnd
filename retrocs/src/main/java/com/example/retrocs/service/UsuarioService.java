@@ -16,15 +16,12 @@ import com.example.retrocs.model.Usuario;
 import com.example.retrocs.model.Game;
 import com.example.retrocs.repository.UsuarioRepository;
 import com.example.retrocs.repository.GameRepository;
-
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService implements UserDetailsService {
-
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -35,7 +32,7 @@ public class UsuarioService implements UserDetailsService {
     private GameRepository gameRepository;
 
     @Override
-    @Transactional // Garante que a transação seja gerenciada automaticamente pelo Spring
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
@@ -92,9 +89,21 @@ public class UsuarioService implements UserDetailsService {
         try {
             return query.getSingleResult();
         } catch (NoResultException e) {
-
             return null;
         }
+    }
+
+    @Transactional
+    public Usuario removerJogoDoUsuario(Integer usuarioId, Integer jogoId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        Set<Game> jogos = usuario.getJogos();
+
+        jogos.removeIf(game -> game.getId().equals(jogoId));
+
+        usuario.setJogos(jogos);
+        return usuarioRepository.save(usuario);
     }
 
 

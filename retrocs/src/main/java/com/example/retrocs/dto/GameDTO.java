@@ -8,6 +8,7 @@ import java.util.Set;
 
 public class GameDTO {
 
+    private Integer id;
     private String nome;
     private String imagem;
     private Integer anoLancamento;
@@ -73,5 +74,13 @@ public class GameDTO {
 
     public void setGeneros(Set<Genero> generos) {
         this.generos = generos;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

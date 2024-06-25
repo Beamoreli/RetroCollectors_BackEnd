@@ -2,6 +2,7 @@ package com.example.retrocs.controller;
 
 
 import com.example.retrocs.model.Game;
+import com.example.retrocs.repository.GameRepository;
 import com.example.retrocs.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,18 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
+    @Autowired
+    private GameRepository gameRepository;
+
+
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Game> createGame(@RequestBody Game game) {
+        Game savedGame = gameRepository.save(game);
+        return ResponseEntity.ok(savedGame);
+    }
+
+
     @GetMapping
     public List<Game> getAllGames() {
         return gameService.findAll();
@@ -25,12 +38,6 @@ public class GameController {
     public ResponseEntity<Game> getGameById(@PathVariable Integer id) {
         Game game = gameService.findById(id);
         return game != null ? ResponseEntity.ok(game) : ResponseEntity.notFound().build();
-    }
-
-    @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public Game createGame(@RequestBody Game game) {
-        return gameService.save(game);
     }
 
     @PutMapping("/{id}")

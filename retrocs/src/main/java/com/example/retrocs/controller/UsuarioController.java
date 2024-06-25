@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -25,9 +27,11 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getUsuarioComJogos(@PathVariable("id") Long userId) {
         Usuario usuario = usuarioService.buscarUsuarioComJogos(userId);
+        if (usuario == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(usuario);
     }
-
 
     @PostMapping
     public Usuario createUsuario(@RequestBody Usuario usuario) {
@@ -55,9 +59,26 @@ public class UsuarioController {
 
     @PostMapping("/{idUsuario}/adicionar-jogo")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> adicionarJogoParaUsuario(@PathVariable Integer idUsuario, @RequestBody GameDTO gameDTO) {
+    public ResponseEntity<Usuario> adicionarJogoParaUsuario(@PathVariable Integer idUsuario, @RequestBody GameDTO gameDTO) {
+        try {
+            Set<Integer> jogosIds = new HashSet<>();
+            jogosIds.add(gameDTO.getId());
+            Usuario usuarioAtualizado = usuarioService.adicionarJogosAoUsuario(idUsuario, jogosIds);
+            return ResponseEntity.ok(usuarioAtualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{idUsuario}/remover-jogo/{idJogo}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Usuario> removerJogoDoUsuario(@PathVariable Integer idUsuario, @PathVariable Integer idJogo) {
+        try {
+            Usuario usuarioAtualizado = usuarioService.removerJogoDoUsuario(idUsuario, idJogo);
+            return ResponseEntity.ok(usuarioAtualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/generos")
@@ -17,9 +20,18 @@ public class GeneroController {
     private GeneroService generoService;
 
     @GetMapping
-    public ResponseEntity<List<String>> getAllGeneros() {
-        List<String> generos = generoService.getAllGeneros();
-        return ResponseEntity.ok(generos);
+    public ResponseEntity<List<Map<String, Object>>> getAllGeneros() {
+        List<Genero> generos = generoService.getAllGeneros();
+
+        List<Map<String, Object>> response = new ArrayList<>();
+        for (Genero genero : generos) {
+            Map<String, Object> generoMap = new LinkedHashMap<>();
+            generoMap.put("id", genero.getId());
+            generoMap.put("nome", genero.getNome());
+            response.add(generoMap);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping

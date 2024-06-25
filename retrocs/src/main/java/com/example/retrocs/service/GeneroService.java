@@ -14,13 +14,12 @@ public class GeneroService {
     @Autowired
     private GeneroRepository generoRepository;
 
-    public List<String> getAllGeneros() {
-        return generoRepository.findAll().stream()
-                .map(Genero::getNome)
-                .collect(Collectors.toList());
+    public List<Genero> getAllGeneros() {
+        return generoRepository.findAll();
     }
 
     public Genero saveGenero(Genero genero) {
         return generoRepository.save(genero);
     }
 }
+

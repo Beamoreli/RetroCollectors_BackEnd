@@ -1,7 +1,7 @@
 package com.retrocs.service;
 
 
-import com.retrocs.model.Game;
+import com.retrocs.model.Games;
 import com.retrocs.repository.GameRepository;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,21 +15,21 @@ public class GameService {
     @Autowired
     private GameRepository gameRepository;
 
-    public List<Game> findAll() {
+    public List<Games> findAll() {
         return gameRepository.findAll();
     }
 
-    public Game findById(Integer id) {
+    public Games findById(Integer id) {
         return gameRepository.findById(id)
                 .map(game -> {
-                    Hibernate.initialize(game.getGeneros()); // Garante que os gêneros sejam carregados
+                    Hibernate.initialize(game.getGeneros());
                     return game;
                 })
                 .orElse(null);
     }
 
-    public Game save(Game game) {
-        return gameRepository.save(game);
+    public Games save(Games games) {
+        return gameRepository.save(games);
     }
 
     public void deleteById(Integer id) {

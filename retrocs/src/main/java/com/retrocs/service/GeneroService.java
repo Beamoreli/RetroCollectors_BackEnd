@@ -1,6 +1,6 @@
 package com.retrocs.service;
 
-import com.retrocs.model.Genero;
+import com.retrocs.model.Generos;
 import com.retrocs.repository.GeneroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,16 +13,16 @@ public class GeneroService {
     @Autowired
     private GeneroRepository generoRepository;
 
-    public List<Genero> getAllGeneros() {
-        List<Genero> generos = generoRepository.findAll();
+    public List<Generos> getAllGeneros() {
+        List<Generos> generos = generoRepository.findAll();
 
         return generos;
     }
 
-    public Genero saveGenero(Genero genero) {
-        Genero savedGenero = generoRepository.save(genero);
+    public Generos saveGenero(Generos generos) {
+        Generos savedGeneros = generoRepository.save(generos);
 
-        return savedGenero;
+        return savedGeneros;
     }
 
     public void deleteGeneroById(Long id) {

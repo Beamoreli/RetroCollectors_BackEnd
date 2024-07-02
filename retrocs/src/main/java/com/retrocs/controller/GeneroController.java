@@ -1,6 +1,6 @@
 package com.retrocs.controller;
 
-import com.retrocs.model.Genero;
+import com.retrocs.model.Generos;
 import com.retrocs.service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +21,10 @@ public class GeneroController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAllGeneros() {
-        List<Genero> generos = generoService.getAllGeneros();
+        List<Generos> generos = generoService.getAllGeneros();
 
         List<Map<String, Object>> response = new ArrayList<>();
-        for (Genero genero : generos) {
+        for (Generos genero : generos) {
             Map<String, Object> generoMap = new LinkedHashMap<>();
             generoMap.put("id", genero.getId());
             generoMap.put("nome", genero.getNome());
@@ -35,9 +35,9 @@ public class GeneroController {
     }
 
     @PostMapping
-    public ResponseEntity<Genero> createGenero(@RequestBody Genero genero) {
-        Genero savedGenero = generoService.saveGenero(genero);
-        return new ResponseEntity<>(savedGenero, HttpStatus.CREATED);
+    public ResponseEntity<Generos> createGenero(@RequestBody Generos generos) {
+        Generos savedGeneros = generoService.saveGenero(generos);
+        return new ResponseEntity<>(savedGeneros, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

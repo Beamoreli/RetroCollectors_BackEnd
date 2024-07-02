@@ -14,7 +14,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Genero {
+public class Generos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Genero {
 
 
     @ManyToMany(mappedBy = "generos")
-    private Set<Game> games = new HashSet<>();
+    private Set<Games> games = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -43,11 +43,11 @@ public class Genero {
         this.nome = nome;
     }
 
-    public Set<Game> getGames() {
+    public Set<Games> getGames() {
         return games;
     }
 
-    public void setGames(Set<Game> games) {
+    public void setGames(Set<Games> games) {
         this.games = games;
     }
 }

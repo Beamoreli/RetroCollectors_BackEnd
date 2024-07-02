@@ -1,7 +1,7 @@
 package com.retrocs.controller;
 
 
-import com.retrocs.model.Game;
+import com.retrocs.model.Games;
 import com.retrocs.repository.GameRepository;
 import com.retrocs.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,35 +23,35 @@ public class GameController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Game> createGame(@RequestBody Game game) {
-        Game savedGame = gameRepository.save(game);
-        return ResponseEntity.ok(savedGame);
+    public ResponseEntity<Games> createGame(@RequestBody Games games) {
+        Games savedGames = gameRepository.save(games);
+        return ResponseEntity.ok(savedGames);
     }
 
 
     @GetMapping
-    public List<Game> getAllGames() {
+    public List<Games> getAllGames() {
         return gameService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Game> getGameById(@PathVariable Integer id) {
-        Game game = gameService.findById(id);
-        return game != null ? ResponseEntity.ok(game) : ResponseEntity.notFound().build();
+    public ResponseEntity<Games> getGameById(@PathVariable Integer id) {
+        Games games = gameService.findById(id);
+        return games != null ? ResponseEntity.ok(games) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Game> updateGame(@PathVariable Integer id, @RequestBody Game gameDetails) {
-        Game game = gameService.findById(id);
-        if (game != null) {
-            game.setNome(gameDetails.getNome());
-            game.setImagem(gameDetails.getImagem());
-            game.setAno_lancamento(gameDetails.getAno_lancamento());
-            game.setConsole(gameDetails.getConsole());
-            game.setDistribuidora(gameDetails.getDistribuidora());
-            game.setGeneros(gameDetails.getGeneros());
-            return ResponseEntity.ok(gameService.save(game));
+    public ResponseEntity<Games> updateGame(@PathVariable Integer id, @RequestBody Games gamesDetails) {
+        Games games = gameService.findById(id);
+        if (games != null) {
+            games.setNome(gamesDetails.getNome());
+            games.setImagem(gamesDetails.getImagem());
+            games.setAno_lancamento(gamesDetails.getAno_lancamento());
+            games.setConsole(gamesDetails.getConsole());
+            games.setDistribuidora(gamesDetails.getDistribuidora());
+            games.setGeneros(gamesDetails.getGeneros());
+            return ResponseEntity.ok(gameService.save(games));
         } else {
             return ResponseEntity.notFound().build();
         }

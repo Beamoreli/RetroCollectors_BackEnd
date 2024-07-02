@@ -17,7 +17,6 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private Set<Usuario> usuarios;
 
-    // Getters e setters
 
     public Role() {}
 

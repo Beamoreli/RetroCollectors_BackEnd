@@ -52,7 +52,7 @@ public class Usuario {
             inverseJoinColumns = @JoinColumn(name = "game_id")
     )
   @JsonIgnoreProperties("usuarios")
-    private Set<Game> jogos = new HashSet<>();
+    private Set<Games> jogos = new HashSet<>();
 
     public Integer getId() {
         return id;

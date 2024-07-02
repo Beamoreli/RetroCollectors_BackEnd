@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.retrocs.model.Usuario;
-import com.retrocs.model.Game;
+import com.retrocs.model.Games;
 import com.retrocs.repository.UsuarioRepository;
 import com.retrocs.repository.GameRepository;
 import java.util.List;
@@ -69,10 +69,10 @@ public class UsuarioService implements UserDetailsService {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        Set<Game> jogos = usuario.getJogos();
+        Set<Games> jogos = usuario.getJogos();
 
         for (Integer jogoId : jogosIds) {
-            Game jogo = gameRepository.findById(jogoId)
+            Games jogo = gameRepository.findById(jogoId)
                     .orElseThrow(() -> new RuntimeException("Jogo não encontrado"));
             jogos.add(jogo);
         }
@@ -98,7 +98,7 @@ public class UsuarioService implements UserDetailsService {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        Set<Game> jogos = usuario.getJogos();
+        Set<Games> jogos = usuario.getJogos();
 
         jogos.removeIf(game -> game.getId().equals(jogoId));
 

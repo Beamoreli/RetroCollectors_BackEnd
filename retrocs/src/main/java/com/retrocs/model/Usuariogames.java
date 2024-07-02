@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioGames {
+public class Usuariogames {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class UsuarioGames {
 
     @ManyToOne
     @JoinColumn(name = "id_game")
-    private Game game;
+    private Games games;
 
     public Integer getId() {
         return id;
@@ -40,11 +40,11 @@ public class UsuarioGames {
         this.user = user;
     }
 
-    public Game getGame() {
-        return game;
+    public Games getGames() {
+        return games;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGames(Games games) {
+        this.games = games;
     }
 }

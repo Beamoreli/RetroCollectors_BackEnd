@@ -15,7 +15,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Game {
+public class Games {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,11 +37,11 @@ public class Game {
 
     @ManyToMany
     @JoinTable(
-            name = "JogoPorGenero",
+            name = "jogoporgenero",
             joinColumns = @JoinColumn(name = "id_game"),
             inverseJoinColumns = @JoinColumn(name = "id_genero")
     )
-    private Set<Genero> generos = new HashSet<>();
+    private Set<Generos> generos = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -91,11 +91,11 @@ public class Game {
         this.distribuidora = distribuidora;
     }
 
-    public Set<Genero> getGeneros() {
+    public Set<Generos> getGeneros() {
         return generos;
     }
 
-    public void setGeneros(Set<Genero> generos) {
+    public void setGeneros(Set<Generos> generos) {
         this.generos = generos;
     }
 }

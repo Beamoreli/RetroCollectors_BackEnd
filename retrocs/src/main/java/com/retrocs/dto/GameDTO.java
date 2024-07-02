@@ -2,7 +2,7 @@ package com.retrocs.dto;
 
 import com.retrocs.model.Console;
 import com.retrocs.model.Distribuidora;
-import com.retrocs.model.Genero;
+import com.retrocs.model.Generos;
 
 import java.util.Set;
 
@@ -14,12 +14,12 @@ public class GameDTO {
     private Integer anoLancamento;
     private Console console;
     private Distribuidora distribuidora;
-    private Set<Genero> generos;
+    private Set<Generos> generos;
 
     public GameDTO() {
     }
 
-    public GameDTO(String nome, String imagem, Integer anoLancamento, Console console, Distribuidora distribuidora, Set<Genero> generos) {
+    public GameDTO(String nome, String imagem, Integer anoLancamento, Console console, Distribuidora distribuidora, Set<Generos> generos) {
         this.nome = nome;
         this.imagem = imagem;
         this.anoLancamento = anoLancamento;
@@ -68,11 +68,11 @@ public class GameDTO {
         this.distribuidora = distribuidora;
     }
 
-    public Set<Genero> getGeneros() {
+    public Set<Generos> getGeneros() {
         return generos;
     }
 
-    public void setGeneros(Set<Genero> generos) {
+    public void setGeneros(Set<Generos> generos) {
         this.generos = generos;
     }
 

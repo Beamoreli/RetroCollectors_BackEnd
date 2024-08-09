@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.Optional;
 
 
@@ -30,20 +31,38 @@ public class AuthController {
     private final TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO body){
-        Usuario usuario = usuarioRepository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
-        if(passwordEncoder.matches(body.password(), usuario.getSenha())) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDTO body) {
+        System.out.println("Received login request: " + body);
+
+        Usuario usuario = usuarioRepository.findByEmail(body.email())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        System.out.println("User found: " + usuario);
+
+        if (passwordEncoder.matches(body.password(), usuario.getSenha())) {
             String token = tokenService.generateToken(usuario);
             return ResponseEntity.ok(new ResponseDTO(usuario.getNome(), token));
         }
-        return ResponseEntity.badRequest().build();
+
+        return ResponseEntity.badRequest().body("Invalid password");
     }
 
+
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterRequestDTO body){
+    public ResponseEntity<?> register(@RequestBody RegisterRequestDTO body) {
+        System.out.println("Received registration request: " + body);
+
+        if (body.name() == null || body.name().isEmpty()) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", "Name cannot be null or empty"));
+        }
+
+        if (body.password() == null || body.password().isEmpty()) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", "Password cannot be null or empty"));
+        }
+
         Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(body.email());
 
-        if(usuarioExistente.isEmpty()) {
+        if (usuarioExistente.isEmpty()) {
             Usuario newUser = new Usuario();
             newUser.setSenha(passwordEncoder.encode(body.password()));
             newUser.setEmail(body.email());
@@ -58,8 +77,12 @@ public class AuthController {
             String token = tokenService.generateToken(newUser);
             return ResponseEntity.ok(new ResponseDTO(newUser.getNome(), token));
         }
+
         return ResponseEntity.badRequest().build();
     }
+
+
+
 }
 
 

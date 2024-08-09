@@ -3,10 +3,12 @@ package com.retrocs.controller;
 
 import com.retrocs.model.Games;
 import com.retrocs.repository.GameRepository;
+import com.retrocs.security.UserPrincipal;
 import com.retrocs.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,5 +64,16 @@ public class GameController {
     public ResponseEntity<Void> deleteGame(@PathVariable Integer id) {
         gameService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/{gameId}/favorite")
+    public ResponseEntity<Void> favoriteGame(@PathVariable Integer gameId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        gameService.favoriteGame(gameId, userPrincipal.getId());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{gameId}/favorite")
+    public ResponseEntity<Void> unfavoriteGame(@PathVariable Integer gameId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        gameService.unfavoriteGame(gameId, userPrincipal.getId());
+        return ResponseEntity.ok().build();
     }
 }

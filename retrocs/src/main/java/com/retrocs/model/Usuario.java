@@ -54,6 +54,32 @@ public class Usuario {
   @JsonIgnoreProperties("usuarios")
     private Set<Games> jogos = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "UsuarioFavoritos",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_id")
+    )
+    @JsonIgnoreProperties("usuarios")
+    private Set<Games> favoritos = new HashSet<>();
+
+
+    public Set<Games> getJogos() {
+        return jogos;
+    }
+
+    public void setJogos(Set<Games> jogos) {
+        this.jogos = jogos;
+    }
+
+    public Set<Games> getFavoritos() {
+        return favoritos;
+    }
+
+    public void setFavoritos(Set<Games> favoritos) {
+        this.favoritos = favoritos;
+    }
+
     public Integer getId() {
         return id;
     }
